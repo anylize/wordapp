@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 @Service
-public class CompanyServiceimpl implements CompanyService{
+public class CompanyServiceImpl implements CompanyService{
  
     @Autowired
     private CompanyMapper companyMapper;

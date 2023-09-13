@@ -2,6 +2,7 @@ package com.sangeng.controller;
 
 
 import com.sangeng.domain.ResponseResult;
+import com.sangeng.domain.Word;
 import com.sangeng.domain.WordUser;
 import com.sangeng.domain.WordUser_enroll;
 import com.sangeng.service.WordUserService;
@@ -53,19 +54,17 @@ public class WordUserController_enroll {
         user_enrollService.enroll(user_enroll);
         Map<String,Object> map;
 
-        //获取了username
+        //获取了用户名
         String PDenroll = user_enrollService.enroll_username(user_enroll.getUsername());
 
-        //获取用户的id来进行userbook信息的同步
-        int PDSenroll = user_enrollService.enroll_id(user_enroll.getUsername());
+        //获取用户的用户名来创建自己的记录表
+        user_enrollService.enroll_table(user_enroll.getUsername());
 
-        //通过id在userbook修改信息
-        user_enrollService.enroll_userbook(PDSenroll);
+        //在表中插入一百条数据
+        user_enrollService.enroll_tableI(user_enroll.getUsername());
 
-        //通过id查找返回id（如果成功返回说明，已经建好了）
-        int PPenroll = user_enrollService.enroll_ids(PDSenroll);
 
-        if(PDenroll != null && PPenroll>0) {
+        if(PDenroll != null) {
             //说明注册成功
         }else{
             return new ResponseResult(300,"注册失败，请重试");

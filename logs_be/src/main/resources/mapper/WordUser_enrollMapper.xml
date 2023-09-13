@@ -7,12 +7,41 @@
     </insert>
 
     <insert id="enroll_userbook">
-        insert into userbook(id,count,state) values (#{id},0,"false")
+#         insert into userbook(id,count,state) values (#{id},0,"false")
     </insert>
+
+    <insert id="enroll_tableI">
+        drop procedure if exists insert_while;
+#         delimiter //
+        create procedure insert_while()
+        begin
+            declare i int default 1;
+            while i&lt;101
+            do
+                insert into ${username}(id,state1,state2,state3) values(i,'flase','flase','flase');
+                set i=i+1;
+            end while;
+            commit;
+        end;
+#         delimiter ;
+        call insert_while();
+    </insert>
+
+    <update id="enroll_table">
+        create table if not exists ${username}
+        (id   int auto_increment  primary key,
+        count1 int   default 0   not null,
+        count2 int   default 0   not null,
+        count3 int   default 0   not null,
+        state1 varchar(50) default 'false' not null,
+        state2 varchar(50) default 'false' not null,
+        state3 varchar(50) default 'false' not null
+        )
+    </update>
 
 
     <select id="enroll_username" resultType="java.lang.String">
-        select * from user where username = #{username}
+        select username from user where username = #{username}
     </select>
 
     <select id="enroll_id" resultType="java.lang.Integer">
@@ -20,7 +49,11 @@
     </select>
 
     <select id="enroll_ids" resultType="java.lang.Integer">
-        select id from userbook where id = #{id}
+#         select id from userbook where id = #{id}
+    </select>
+
+    <select id="enroll_choose" resultType="com.sangeng.domain.Word">
+        select count1 from ${username} where id = ${i}
     </select>
 
 

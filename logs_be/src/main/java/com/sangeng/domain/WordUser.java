@@ -18,8 +18,6 @@ public class WordUser {
     public String nickname;
     public String email;
 
-    private int count;
-    public String state;
 
     private String token;
 
@@ -35,9 +33,6 @@ public class WordUser {
         this.password = password;
     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
 
     public void setToken(String token) {
         this.token = token;
@@ -51,9 +46,6 @@ public class WordUser {
         this.email = email;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
 
 
 }

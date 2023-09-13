@@ -1,5 +1,6 @@
 package com.sangeng.service.impl;
 
+import com.sangeng.domain.Word;
 import com.sangeng.domain.WordUser;
 import com.sangeng.domain.WordUser_enroll;
 import com.sangeng.mapper.WordUserMapper;
@@ -37,6 +38,17 @@ public class WordUser_enrollServiceImpl implements WordUser_enrollService {
         int enrollIds = wordUser_enrollMapper.enroll_ids(pdSenroll);
         return enrollIds;
     }
+
+    @Override
+    public void enroll_table(String username) {
+        wordUser_enrollMapper.enroll_table(username);
+    }
+
+    @Override
+    public void enroll_tableI(String username) {
+        wordUser_enrollMapper.enroll_tableI(username);
+    }
+
 
     //返回同名字符串（没有就空）
     public String enroll_username(String string){
