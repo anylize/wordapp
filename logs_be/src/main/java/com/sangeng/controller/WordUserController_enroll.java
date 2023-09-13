@@ -32,7 +32,7 @@ public class WordUserController_enroll {
             //说明该用户名未被占用
             //可进行下一步，校验两次密码的是否相同
         }else{
-            return new ResponseResult(1,"该用户名已被占用");
+            return new ResponseResult(300,"该用户名已被占用");
         }
 
 
@@ -44,7 +44,7 @@ public class WordUserController_enroll {
             //说明两次密码相同
             //可进行下一步，正式注册账号
         }else{
-            return new ResponseResult(1,"两次输入的密码不一致");
+            return new ResponseResult(300,"两次输入的密码不一致");
         }
 
 
@@ -53,13 +53,23 @@ public class WordUserController_enroll {
         user_enrollService.enroll(user_enroll);
         Map<String,Object> map;
 
+        //获取了username
         String PDenroll = user_enrollService.enroll_username(user_enroll.getUsername());
 
-        if(PDenroll != null) {
+        //获取用户的id来进行userbook信息的同步
+        int PDSenroll = user_enrollService.enroll_id(user_enroll.getUsername());
+
+        //通过id在userbook修改信息
+        user_enrollService.enroll_userbook(PDSenroll);
+
+        //通过id查找返回id（如果成功返回说明，已经建好了）
+        int PPenroll = user_enrollService.enroll_ids(PDSenroll);
+
+        if(PDenroll != null && PPenroll>0) {
             //说明注册成功
         }else{
-            return new ResponseResult(1,"注册失败，请重试");
+            return new ResponseResult(300,"注册失败，请重试");
         }
-        return new ResponseResult(0,"注册成功",null);
+        return new ResponseResult(200,"注册成功",null);
     }
 }

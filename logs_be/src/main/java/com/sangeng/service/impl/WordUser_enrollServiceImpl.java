@@ -21,6 +21,23 @@ public class WordUser_enrollServiceImpl implements WordUser_enrollService {
 
     }
 
+    @Override
+    public int enroll_id(String string) {
+        int SenrollId = wordUser_enrollMapper.enroll_id(string);
+        return SenrollId;
+    }
+
+    @Override
+    public void enroll_userbook(int pdSenroll) {
+        wordUser_enrollMapper.enroll_userbook(pdSenroll);
+    }
+
+    @Override
+    public int enroll_ids(int pdSenroll) {
+        int enrollIds = wordUser_enrollMapper.enroll_ids(pdSenroll);
+        return enrollIds;
+    }
+
     //返回同名字符串（没有就空）
     public String enroll_username(String string){
         String enrollString = wordUser_enrollMapper.enroll_username(string);

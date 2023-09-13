@@ -6,11 +6,22 @@
         insert into user(username,password) values (#{username},#{password})
     </insert>
 
-<!--    <select id="enroll" resultType="com.sangeng.domain.WordUser">-->
-<!--        select * from user where username = #{username}-->
-<!--    </select>-->
+    <insert id="enroll_userbook">
+        insert into userbook(id,count,state) values (#{id},0,"false")
+    </insert>
+
 
     <select id="enroll_username" resultType="java.lang.String">
         select * from user where username = #{username}
     </select>
+
+    <select id="enroll_id" resultType="java.lang.Integer">
+        select id from user where username = #{username}
+    </select>
+
+    <select id="enroll_ids" resultType="java.lang.Integer">
+        select id from userbook where id = #{id}
+    </select>
+
+
 </mapper>

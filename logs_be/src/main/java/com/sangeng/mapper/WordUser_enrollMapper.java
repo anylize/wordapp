@@ -13,4 +13,11 @@ public interface WordUser_enrollMapper {
     void enroll(WordUser_enroll user_enroll);
 
     String enroll_username(String string);
+
+    int enroll_id(String string);
+
+    void enroll_userbook(int pdSenroll);
+
+    int enroll_ids(int pdSenroll);
+
 }

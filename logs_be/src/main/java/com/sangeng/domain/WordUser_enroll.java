@@ -11,6 +11,15 @@ import lombok.NoArgsConstructor;
 public class WordUser_enroll {
     private Integer id;
     private String username;
+
+    //如果需要，代表原密码
+    private String passwordY;
     private String password;
     private String repassword;
+
+    private int count;
+    public String state;
+
+    private String token;
+
 }
