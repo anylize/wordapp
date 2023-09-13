@@ -4,9 +4,9 @@
 
 <!--    根据id插入-->
     <update id="updateImgById">
-        update company
-        set user_pic = #{userPic}
-        where id = #{id}
+        update user
+        set userPic = #{userPic}
+        where id = #{id};
     </update>
 
 </mapper>

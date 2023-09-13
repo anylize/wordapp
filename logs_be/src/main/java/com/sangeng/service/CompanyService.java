@@ -1,5 +1,5 @@
 package com.sangeng.service;
 
 public interface CompanyService {
-    int updateImgById(String businessLicenseUrl, Integer id);
+    int updateImgById(String userPic, Integer id);
 }

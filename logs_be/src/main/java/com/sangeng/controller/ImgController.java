@@ -9,9 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
  
 import java.io.File;
 import java.io.IOException;
- 
+
+//上传头像
+
 @RestController
-@RequestMapping("company")
 public class ImgController {
 
     @Autowired
@@ -19,7 +20,7 @@ public class ImgController {
 
     @PostMapping("/loadImg")
     public ResponseResult uploadImg(@RequestPart("file") MultipartFile file, @Param(value = "id") Integer id) {
-        String imgPath = "C:/web/img/";//获取图片路径
+        String imgPath = "E:/";//获取图片路径
 
         String ImgName = file.getOriginalFilename();
         String lastName = ImgName.substring(ImgName.lastIndexOf(".")); //获取图片后缀名
@@ -33,7 +34,7 @@ public class ImgController {
         // 将上传的文件保存到一个目标文件当中
         try {
             file.transferTo(filePath);
-            if (companyService.updateImgById("http://localhost:8989/img/" + newName, id) == 1) {
+            if (companyService.updateImgById("http://localhost:8080/img/" + newName, id) == 1) {
                 return new ResponseResult(0, "图片已保存");
             }
             return new ResponseResult(1, "保存失败", null);

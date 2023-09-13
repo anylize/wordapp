@@ -11,7 +11,7 @@ public class CompanyServiceimpl implements CompanyService{
     @Autowired
     private CompanyMapper companyMapper;
     @Override
-    public int updateImgById(String businessLicenseUrl, Integer id) {
-        return companyMapper.updateImgById(businessLicenseUrl, id);
+    public int updateImgById(String userPic, Integer id) {
+        return companyMapper.updateImgById(userPic, id);
     }
 }

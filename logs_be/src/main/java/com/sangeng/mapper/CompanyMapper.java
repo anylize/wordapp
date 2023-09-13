@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Mapper     //扫描时有用
 @Repository
 public interface CompanyMapper {
-    int updateImgById(String businessLicenseUrl, Integer id);
+    int updateImgById(String userPic, Integer id);
 }
