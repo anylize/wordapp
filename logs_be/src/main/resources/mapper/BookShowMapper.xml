@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sangeng.mapper.BookShowMapper">
+    <select id="addIns" resultType="com.sangeng.domain.Word">
+        select id,${counts},${states} from ${thisUsername}
+        <where>
+            <foreach collection="set" open="id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="addIn" resultType="com.sangeng.domain.Word">
+        select * from ${book}
+        <where>
+            <foreach collection="set" open="id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+
+    <select id="find_id" resultType="java.lang.String">
+        select username from user where id = #{thisUsername}
+    </select>
+
+    <select id="showAllP" resultType="com.sangeng.domain.Word">
+        select * from ${book}
+    </select>
+
+    <select id="showAll" resultType="com.sangeng.domain.Word">
+        select id,${counts},${states} from ${thisUsername}
+    </select>
+
+
+</mapper>

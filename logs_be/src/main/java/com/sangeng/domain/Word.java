@@ -15,6 +15,16 @@ public class Word {
     private String meaning;
 
     private int count;
-    public String state;
+    public int state;
+
+    //用与开始时提取count和state
+    private int count1;
+    public int state1;
+    private int count2;
+    public int state2;
+    private int count3;
+    public int state3;
+
+
 
 }
