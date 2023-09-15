@@ -34,5 +34,9 @@
         select password from user where id = #{thisUserId}
     </select>
 
+    <select id="useId" resultType="com.sangeng.domain.WordUser">
+        select * from user where id = #{thisUserId}
+    </select>
+
 
 </mapper>

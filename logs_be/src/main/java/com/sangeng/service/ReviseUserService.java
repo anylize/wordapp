@@ -1,5 +1,7 @@
 package com.sangeng.service;
 
+import com.sangeng.domain.WordUser;
+
 public interface ReviseUserService {
 
     //通过id查询用户并改变email
@@ -21,4 +23,5 @@ public interface ReviseUserService {
     //通过id修改密码
     void reviscePassword(int thisUserId, String password);
 
+    WordUser useId(int thisUserId);
 }

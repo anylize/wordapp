@@ -1,5 +1,6 @@
 package com.sangeng.service.impl;
 
+import com.sangeng.domain.WordUser;
 import com.sangeng.mapper.ReviseUserMapper;
 import com.sangeng.service.ReviseUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,10 @@ public class ReviseUserServiceImpl implements ReviseUserService {
     @Override
     public void reviscePassword(int thisUserId, String password) {
         reviseUserMapper.revisePassword(thisUserId,password);
+    }
+
+    @Override
+    public WordUser useId(int thisUserId) {
+        return reviseUserMapper.useId(thisUserId);
     }
 }

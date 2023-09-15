@@ -48,8 +48,8 @@
         select id from user where username = #{username}
     </select>
 
-    <select id="enroll_ids" resultType="java.lang.Integer">
-#         select id from userbook where id = #{id}
+    <select id="enroll_ids" resultType="com.sangeng.domain.WordUser">
+#         select * from userbook where id = #{id}
     </select>
 
     <select id="enroll_choose" resultType="com.sangeng.domain.Word">

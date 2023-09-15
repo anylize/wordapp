@@ -34,9 +34,8 @@ public class WordUser_enrollServiceImpl implements WordUser_enrollService {
     }
 
     @Override
-    public int enroll_ids(int pdSenroll) {
-        int enrollIds = wordUser_enrollMapper.enroll_ids(pdSenroll);
-        return enrollIds;
+    public WordUser enroll_ids(int pdSenroll) {
+        return wordUser_enrollMapper.enroll_ids(pdSenroll);
     }
 
     @Override

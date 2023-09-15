@@ -4,14 +4,12 @@ import com.sangeng.domain.ResponseResult;
 import com.sangeng.domain.WordUser;
 import com.sangeng.domain.WordUser_enroll;
 import com.sangeng.service.ReviseUserService;
+import com.sangeng.service.WordUser_enrollService;
 import com.sangeng.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +19,31 @@ public class ReviseUserController {
 
     @Autowired
     private ReviseUserService reviseUserService;
+
+
+    @GetMapping("/get")
+    public ResponseResult retuenUser(@RequestHeader("Authorization") String authorization) throws Exception {
+
+        //先解析token获取用户id
+        Claims thisUser = JwtUtil.parseJWT(authorization);
+
+        String thisUserIdS = thisUser.getSubject();
+
+        int thisUserId = Integer.parseInt(thisUserIdS);
+
+        WordUser wordUser = reviseUserService.useId(thisUserId);
+
+
+        if(wordUser != null){
+            //修改成功，直接过
+        }else{
+            return new ResponseResult(300,"获取信息失败",null);
+        }
+
+        return new ResponseResult(200,"获取信息成功",wordUser);
+    }
+
+
 
     @PostMapping("/emailNickname")
     public ResponseResult revisceEnickname(@RequestBody WordUser user, HttpServletRequest request) throws Exception {
@@ -61,35 +84,6 @@ public class ReviseUserController {
 
         return new ResponseResult(200,"修改邮件和昵称成功",null);
     }
-
-
-//    @PostMapping("/nickname")
-//    public ResponseResult revisceNickname(@RequestBody WordUser user) throws Exception {
-//
-//        //先解析token获取用户id
-//        Claims thisUser = JwtUtil.parseJWT(user.getToken());
-//
-//        String thisUserIdS = thisUser.getSubject();
-//
-//        int thisUserId = Integer.parseInt(thisUserIdS);
-//
-////        user.setUsername(thisUser.getSubject());
-//
-//        //通过id修改nickname
-//        reviseUserService.revisceNickname(thisUserId,user.getNickname());
-//
-//        //通过id返回email
-//        String Gnickname = reviseUserService.getNickname(thisUserId);
-//
-//        //通过对比，如果email相同，则说明修改成功
-//        if(Gnickname.equals(user.getNickname())){
-//            //修改成功，直接过
-//        }else{
-//            return new ResponseResult(300,"修改失败",null);
-//        }
-//
-//        return new ResponseResult(200,"修改昵称成功",null);
-//    }
 
 
 

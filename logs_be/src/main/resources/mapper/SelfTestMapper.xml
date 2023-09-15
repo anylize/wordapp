@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sangeng.mapper.SelfTestMapper">
+
+    <resultMap id="SelfTestZE" type="com.sangeng.domain.SelfTest">
+        <id column="id" property="id"></id>
+        <result column="word" property="trueAnswer"></result>
+        <result column="meaning" property="question"></result>
+    </resultMap>
+
+    <resultMap id="SelfTestEZ" type="com.sangeng.domain.SelfTest">
+        <id column="id" property="id"></id>
+        <result column="word" property="question"></result>
+        <result column="meaning" property="trueAnswer"></result>
+    </resultMap>
+
+
+    <select id="find_id" resultType="java.lang.String">
+        select username from user where id = #{thisUserId}
+    </select>
+
+    <select id="findC" resultMap="SelfTestZE">
+        select id,word,meaning from ${book}
+        <where>
+            <foreach collection="setC" open="id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+
+    <select id="returnZE" resultType="com.sangeng.domain.Word">
+        select * from ${book}
+        <where>
+            <foreach collection="setW" open="id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="findE" resultMap="SelfTestEZ">
+        select id,word,meaning from ${book}
+        <where>
+            <foreach collection="setE" open="id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+
+</mapper>

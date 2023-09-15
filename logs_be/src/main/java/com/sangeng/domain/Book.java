@@ -18,6 +18,9 @@ public class Book {
     //显示单词数量
     private int number;
 
+    //记录比例
+    private float rate;
+
 
 
 

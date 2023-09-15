@@ -2,6 +2,7 @@ package com.sangeng.mapper;
 
 
 import com.sangeng.domain.Word;
+import com.sangeng.domain.WordUser;
 import com.sangeng.domain.WordUser_enroll;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,7 @@ public interface WordUser_enrollMapper {
 
     void enroll_userbook(int pdSenroll);
 
-    int enroll_ids(int pdSenroll);
+    WordUser enroll_ids(int pdSenroll);
 
     void enroll_table(String username);
 

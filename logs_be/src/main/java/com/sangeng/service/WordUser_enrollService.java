@@ -1,5 +1,6 @@
 package com.sangeng.service;
 
+import com.sangeng.domain.User;
 import com.sangeng.domain.Word;
 import com.sangeng.domain.WordUser;
 import com.sangeng.domain.WordUser_enroll;
@@ -19,7 +20,7 @@ public interface WordUser_enrollService {
     void enroll_userbook(int pdSenroll);
 
     //用user表中id来查找userbook中id以来验证已经成功建立信息
-    int enroll_ids(int pdSenroll);
+    WordUser enroll_ids(int pdSenroll);
 
     //创建以用户名为表名的状态表
     void enroll_table(String username);

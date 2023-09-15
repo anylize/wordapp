@@ -1,6 +1,7 @@
 package com.sangeng.mapper;
 
 
+import com.sangeng.domain.WordUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,5 @@ public interface ReviseUserMapper {
 
     void revisePassword(int thisUserId, String password);
 
+    WordUser useId(int thisUserId);
 }
