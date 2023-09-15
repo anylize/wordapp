@@ -1,5 +1,6 @@
 package com.sangeng.service.impl;
 
+import com.sangeng.domain.RecordingTest;
 import com.sangeng.domain.SelfTest;
 import com.sangeng.domain.Word;
 import com.sangeng.mapper.SelfTestMapper;
@@ -35,5 +36,15 @@ public class SelfTestServiceImpl implements SelfTestService {
     @Override
     public List<SelfTest> findE(HashSet<Integer> setE, String book) {
         return selfTestMapper.findE(setE,book);
+    }
+
+    @Override
+    public void addRecording(String userTable, RecordingTest recordingTest) {
+        selfTestMapper.addRecording(userTable,recordingTest);
+    }
+
+    @Override
+    public RecordingTest findRecording(String userTable, RecordingTest recordingTest) {
+        return selfTestMapper.findRecording(userTable,recordingTest);
     }
 }

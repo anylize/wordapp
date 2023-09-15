@@ -1,10 +1,7 @@
 package com.sangeng.controller;
 
 
-import com.sangeng.domain.Book;
-import com.sangeng.domain.ResponseResult;
-import com.sangeng.domain.User;
-import com.sangeng.domain.Word;
+import com.sangeng.domain.*;
 import com.sangeng.service.BookShowService;
 import com.sangeng.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -158,5 +155,121 @@ public class BookShowController {
         return new ResponseResult(200,"单词背诵开始成功",Pwords);
     }
 
+
+    @PostMapping("/alterState")
+    public ResponseResult alterState(@RequestBody AlterWord alterWord, HttpServletRequest request) throws Exception {
+
+
+        //获取响应头的token
+        String token = request.getHeader("Authorization");
+
+
+        //先解析token获取用户id
+        Claims thisUser = JwtUtil.parseJWT(token);
+
+        String thisUserIdS = thisUser.getSubject();
+
+        int thisUserId = Integer.parseInt(thisUserIdS);
+
+        //拼装私有的变量
+        String Snum = alterWord.getBook().substring(4);
+        String counts = "count" + Snum;
+        String states = "state" + Snum;
+
+        //通过id获取用户名
+        String thisUsername = bookShowService.find_id(thisUserId);
+
+        //在表中对比状态
+        //先获取表中数据
+        //获取用户单词表私有部分
+        List<Word> wordsR = bookShowService.showAll(thisUsername,counts,states);
+        int j = 0;
+
+
+        if(wordsR.size() == alterWord.getWordList().size()){
+            //表示单词获取成功，继续下一步
+        }else {
+            return new ResponseResult(300,"单词状态更新失败",null);
+        }
+
+        for (int i = 0 ; i < wordsR.size() ; i++){
+            if(wordsR.get(i).getState() != alterWord.getWordList().get(i).getState()){
+                //若状态不同，则进行更改数据库
+                bookShowService.returnState(thisUsername,alterWord.getWordList().get(i).getId(),states,alterWord.getWordList().get(i).getState());
+                j = i;
+            }
+        }
+
+        //查找id为j的单词
+        HashSet<Integer> set = new HashSet<Integer>();
+        set.add(j);
+        List<Word> verify = bookShowService.addIns(set,thisUsername,counts,states);
+
+        if(verify != null) {
+            //获取成功直接过
+        }else {
+            return new ResponseResult(300,"单词状态更新失败",null);
+        }
+
+        return new ResponseResult(200,"单词状态更新成功",null);
+    }
+
+    @PostMapping("/alterCount")
+    public ResponseResult alterCount(@RequestBody AlterWord alterWord, HttpServletRequest request) throws Exception {
+
+
+        //获取响应头的token
+        String token = request.getHeader("Authorization");
+
+
+        //先解析token获取用户id
+        Claims thisUser = JwtUtil.parseJWT(token);
+
+        String thisUserIdS = thisUser.getSubject();
+
+        int thisUserId = Integer.parseInt(thisUserIdS);
+
+        //拼装私有的变量
+        String Snum = alterWord.getBook().substring(4);
+        String counts = "count" + Snum;
+        String states = "state" + Snum;
+
+        //通过id获取用户名
+        String thisUsername = bookShowService.find_id(thisUserId);
+
+        //在表中对比状态
+        //先获取表中数据
+        //获取用户单词表私有部分
+        List<Word> wordsR = bookShowService.showAll(thisUsername,counts,states);
+        int j = 0;
+
+
+        if(wordsR.size() == alterWord.getWordList().size()){
+            //表示单词获取成功，继续下一步
+        }else {
+            return new ResponseResult(300,"单词次数更新失败",null);
+        }
+
+        for (int i = 0 ; i < wordsR.size() ; i++){
+            if(wordsR.get(i).getCount() != alterWord.getWordList().get(i).getCount()){
+                //若状态不同，则进行更改数据库
+                bookShowService.returnCount(thisUsername,alterWord.getWordList().get(i).getId(),counts,alterWord.getWordList().get(i).getCount());
+                j = alterWord.getWordList().get(i).getId();
+            }
+        }
+
+        //查找id为j的单词
+        HashSet<Integer> set = new HashSet<Integer>();
+        set.add(j);
+        List<Word> verify = bookShowService.addIns(set,thisUsername,counts,states);
+
+        if(verify.get(0).getCount() == alterWord.getWordList().get(j).getCount()) {
+            //获取成功直接过
+        }else {
+            return new ResponseResult(300,"单词次数更新失败",null);
+        }
+
+        return new ResponseResult(200,"单词次数更新成功",null);
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.sangeng.mapper;
 
 
+import com.sangeng.domain.RecordingTest;
 import com.sangeng.domain.SelfTest;
 import com.sangeng.domain.Word;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,8 @@ public interface SelfTestMapper {
 
 
     List<SelfTest> findE(HashSet<Integer> setE, String book);
+
+    void addRecording(String userTable, RecordingTest recordingTest);
+
+    RecordingTest findRecording(String userTable, RecordingTest recordingTest);
 }

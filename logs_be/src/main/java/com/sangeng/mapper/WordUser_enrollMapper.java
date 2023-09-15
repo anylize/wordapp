@@ -25,4 +25,5 @@ public interface WordUser_enrollMapper {
 
     void enroll_tableI(String username);
 
+    void enroll_tableR(String enrollT);
 }

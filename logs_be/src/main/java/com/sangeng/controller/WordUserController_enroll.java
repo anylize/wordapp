@@ -63,6 +63,10 @@ public class WordUserController_enroll {
         //在表中插入一百条数据
         user_enrollService.enroll_tableI(user_enroll.getUsername());
 
+        //用“用户名+T”创建考试记录表
+        String enrollT = PDenroll + "t";
+        user_enrollService.enroll_tableR(enrollT);
+
 
         if(PDenroll != null) {
             //说明注册成功

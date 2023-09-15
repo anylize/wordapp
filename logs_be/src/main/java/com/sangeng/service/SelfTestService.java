@@ -1,5 +1,6 @@
 package com.sangeng.service;
 
+import com.sangeng.domain.RecordingTest;
 import com.sangeng.domain.SelfTest;
 import com.sangeng.domain.Word;
 
@@ -18,4 +19,8 @@ public interface SelfTestService {
     List<Word> returnZE(HashSet<Integer> setW, String book);
 
     List<SelfTest> findE(HashSet<Integer> setE, String book);
+
+    void addRecording(String userTable, RecordingTest recordingTest);
+
+    RecordingTest findRecording(String userTable, RecordingTest recordingTest);
 }

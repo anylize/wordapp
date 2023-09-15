@@ -1,9 +1,6 @@
 package com.sangeng.controller;
 
-import com.sangeng.domain.Book;
-import com.sangeng.domain.ResponseResult;
-import com.sangeng.domain.SelfTest;
-import com.sangeng.domain.Word;
+import com.sangeng.domain.*;
 import com.sangeng.service.BookShowService;
 import com.sangeng.service.SelfTestService;
 import com.sangeng.utils.JwtUtil;
@@ -11,6 +8,7 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +19,7 @@ import java.util.Random;
 
 
 @RestController
+@RequestMapping("/test")
 public class SelfTestController {
 
     @Autowired
@@ -113,7 +112,7 @@ public class SelfTestController {
         List<SelfTest> answersE = selfTestService.findE(setE, books.getBook());
 
         //填充英转中返回的答案
-        for (int i = 0; i < setSizeC; i++) {
+        for (int i = 0; i < setSizeE; i++) {
 
             //随机生成单词的错误选项
             HashSet<Integer> setWs = new HashSet<Integer>();
@@ -148,5 +147,41 @@ public class SelfTestController {
         }
 
         return new ResponseResult(200, "单词自测开始成功", answersC);
+    }
+
+
+    @PostMapping("/recordingTest")
+    public ResponseResult recordingTest(@RequestBody RecordingTest recordingTest, HttpServletRequest request) throws Exception {
+
+        //获取响应头的token
+        String token = request.getHeader("Authorization");
+
+        //先解析token获取用户id
+        Claims thisUser = JwtUtil.parseJWT(token);
+
+        String thisUserIdS = thisUser.getSubject();
+
+        int thisUserId = Integer.parseInt(thisUserIdS);
+
+        //通过id获取用户名
+        String thisUsername = selfTestService.find_id(thisUserId);
+
+        //拼装用户表名
+        String userTable = thisUsername + "t";
+
+        //添加考试记录
+        selfTestService.addRecording(userTable, recordingTest);
+
+        //返回记录，如果存在说明成功
+        RecordingTest recordingTest1 = selfTestService.findRecording(userTable,recordingTest);
+
+        if (recordingTest1 != null) {
+            //获取成功直接过
+        } else {
+            return new ResponseResult(300, "考试记录添加失败", null);
+        }
+
+        return new ResponseResult(200, "考试记录添加成功",null);
+
     }
 }

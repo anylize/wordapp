@@ -14,6 +14,10 @@
         <result column="meaning" property="trueAnswer"></result>
     </resultMap>
 
+    <insert id="addRecording">
+        insert into ${userTable}(id,date,book,number,scores) values (#{recordingTest.id},#{recordingTest.date},#{recordingTest.book},#{recordingTest.number},#{recordingTest.scores})
+    </insert>
+
 
     <select id="find_id" resultType="java.lang.String">
         select username from user where id = #{thisUserId}
@@ -45,6 +49,10 @@
                 #{id}
             </foreach>
         </where>
+    </select>
+
+    <select id="findRecording" resultType="com.sangeng.domain.RecordingTest">
+        select * from ${userTable} where id = #{recordingTest.id}
     </select>
 
 

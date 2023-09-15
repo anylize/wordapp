@@ -48,6 +48,11 @@ public class WordUser_enrollServiceImpl implements WordUser_enrollService {
         wordUser_enrollMapper.enroll_tableI(username);
     }
 
+    @Override
+    public void enroll_tableR(String enrollT) {
+        wordUser_enrollMapper.enroll_tableR(enrollT);
+    }
+
 
     //返回同名字符串（没有就空）
     public String enroll_username(String string){

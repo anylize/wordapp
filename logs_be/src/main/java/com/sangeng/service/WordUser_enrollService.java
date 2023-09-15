@@ -28,4 +28,5 @@ public interface WordUser_enrollService {
     //在表中生成一百条数据
     void enroll_tableI(String username);
 
+    void enroll_tableR(String enrollT);
 }

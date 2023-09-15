@@ -42,4 +42,15 @@ public class BookShowServiceImpl implements BookShowService {
     public List<Word> addIns(@Param("set") HashSet<Integer> set, String thisUsername, String counts, String states) {
         return bookShowMapper.addIns(set,thisUsername,counts,states);
     }
+
+    @Override
+    public void returnState(String thisUsername, int id, String states, int state) {
+        bookShowMapper.returnState(thisUsername,id,states,state);
+    }
+
+    @Override
+    public void returnCount(String thisUsername, int id, String counts, int count) {
+        bookShowMapper.returnCount(thisUsername,id,counts,count);
+    }
+
 }
