@@ -6,10 +6,7 @@ import com.sangeng.service.SelfTestService;
 import com.sangeng.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -184,4 +181,46 @@ public class SelfTestController {
         return new ResponseResult(200, "考试记录添加成功",null);
 
     }
+
+
+    @GetMapping("/showTest")
+    public ResponseResult showTest(@RequestHeader("Authorization") String authorization) throws Exception {
+
+        //先解析token获取用户id
+        Claims thisUser = JwtUtil.parseJWT(authorization);
+
+        String thisUserIdS = thisUser.getSubject();
+
+        int thisUserId = Integer.parseInt(thisUserIdS);
+
+        //通过id获取用户名
+        String thisUsername = selfTestService.find_id(thisUserId);
+
+        //拼装用户表名
+        String userTable = thisUsername + "t";
+
+        //返回记录，如果存在说明成功
+        List<RecordingTest> selfTests = selfTestService.findAll(userTable);
+
+        for (RecordingTest test : selfTests){
+            if(test.getBook().equals("book1")){
+                test.setBook("高中英语");
+            } else if (test.getBook().equals("book2")) {
+                test.setBook("四级英语");
+            }else {
+                test.setBook("六级英语");
+            }
+        }
+
+        if (selfTests != null) {
+            //获取成功直接过
+        } else {
+            return new ResponseResult(300, "考试记录返回失败", null);
+        }
+
+        return new ResponseResult(200, "考试记录返回成功",selfTests);
+
+    }
+
+
 }
