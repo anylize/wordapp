@@ -52,7 +52,8 @@ public class WordUserController_enroll {
         //进行注册
         //获取注册好的用户名，表示是否注册成功
         user_enrollService.enroll(user_enroll);
-        Map<String,Object> map;
+
+        //进行密码加密
 
         //获取了用户名
         String PDenroll = user_enrollService.enroll_username(user_enroll.getUsername());

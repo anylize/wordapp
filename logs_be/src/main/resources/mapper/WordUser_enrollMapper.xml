@@ -42,7 +42,7 @@
     <update id="enroll_tableR">
         create table if not exists ${enrollT}
         (
-            id     int          not null
+            id     int  auto_increment   not null
                 primary key,
             date   varchar(255) not null,
             book   varchar(255) not null,

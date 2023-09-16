@@ -175,7 +175,7 @@ public class SelfTestController {
         //返回记录，如果存在说明成功
         RecordingTest recordingTest1 = selfTestService.findRecording(userTable,recordingTest);
 
-        if (recordingTest1 != null) {
+        if (recordingTest1 == null ) {
             //获取成功直接过
         } else {
             return new ResponseResult(300, "考试记录添加失败", null);

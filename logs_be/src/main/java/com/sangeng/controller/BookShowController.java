@@ -182,37 +182,53 @@ public class BookShowController {
         //在表中对比状态
         //先获取表中数据
         //获取用户单词表私有部分
-        List<Word> wordsR = bookShowService.showAll(thisUsername,counts,states);
+        //对应wordR需要修改的是指定的字段
+        List<Word> wordsR = bookShowService.showAll(thisUsername, counts, states);
         int j = 0;
 
 
-        if(wordsR.size() == alterWord.getWordList().size()){
+        if (wordsR.size() == alterWord.getWordList().size()) {
             //表示单词获取成功，继续下一步
-        }else {
-            return new ResponseResult(300,"单词状态更新失败",null);
+        } else {
+            return new ResponseResult(300, "单词状态更新失败", null);
         }
 
-        for (int i = 0 ; i < wordsR.size() ; i++){
-            if(wordsR.get(i).getState() != alterWord.getWordList().get(i).getState()){
-                //若状态不同，则进行更改数据库
-                bookShowService.returnState(thisUsername,alterWord.getWordList().get(i).getId(),states,alterWord.getWordList().get(i).getState());
-                j = i;
+        for (int i = 0; i < wordsR.size(); i++) {
+            if (alterWord.getBook().equals("book1")) {
+                if (wordsR.get(i).getState1() != alterWord.getWordList().get(i).getState()) {
+                    //若状态不同，则进行更改数据库
+                    bookShowService.returnState(thisUsername, alterWord.getWordList().get(i).getId(), states, alterWord.getWordList().get(i).getState());
+                    j = i;
+                }
+            } else if (alterWord.getBook().equals("book2")) {
+                if (wordsR.get(i).getState2() != alterWord.getWordList().get(i).getState()) {
+                    //若状态不同，则进行更改数据库
+                    bookShowService.returnState(thisUsername, alterWord.getWordList().get(i).getId(), states, alterWord.getWordList().get(i).getState());
+                    j = i;
+                }
+            } else {
+                if (wordsR.get(i).getState3() != alterWord.getWordList().get(i).getState()) {
+                    //若状态不同，则进行更改数据库
+                    bookShowService.returnState(thisUsername, alterWord.getWordList().get(i).getId(), states, alterWord.getWordList().get(i).getState());
+                    j = i;
+                }
+
             }
         }
 
-        //查找id为j的单词
-        HashSet<Integer> set = new HashSet<Integer>();
-        set.add(j);
-        List<Word> verify = bookShowService.addIns(set,thisUsername,counts,states);
+            //查找id为j的单词
+            HashSet<Integer> set = new HashSet<Integer>();
+            set.add(j);
+            List<Word> verify = bookShowService.addIns(set, thisUsername, counts, states);
 
-        if(verify != null) {
-            //获取成功直接过
-        }else {
-            return new ResponseResult(300,"单词状态更新失败",null);
+            if (verify != null) {
+                //获取成功直接过
+            } else {
+                return new ResponseResult(300, "单词状态更新失败", null);
+            }
+
+            return new ResponseResult(200, "单词状态更新成功", null);
         }
-
-        return new ResponseResult(200,"单词状态更新成功",null);
-    }
 
     @PostMapping("/alterCount")
     public ResponseResult alterCount(@RequestBody AlterWord alterWord, HttpServletRequest request) throws Exception {
@@ -237,10 +253,17 @@ public class BookShowController {
         //通过id获取用户名
         String thisUsername = bookShowService.find_id(thisUserId);
 
+        //创建集合，获取id
+        HashSet<Integer> setId = new HashSet<Integer>();
+
+        for(int i = 0 ; i < alterWord.getWordList().size() ; i++){
+            setId.add(alterWord.getWordList().get(i).getId());
+        }
+
         //在表中对比状态
         //先获取表中数据
         //获取用户单词表私有部分
-        List<Word> wordsR = bookShowService.showAll(thisUsername,counts,states);
+        List<Word> wordsR = bookShowService.addIns(setId,thisUsername,counts,states);
         int j = 0;
 
 
@@ -251,11 +274,28 @@ public class BookShowController {
         }
 
         for (int i = 0 ; i < wordsR.size() ; i++){
-            if(wordsR.get(i).getCount() != alterWord.getWordList().get(i).getCount()){
-                //若状态不同，则进行更改数据库
-                bookShowService.returnCount(thisUsername,alterWord.getWordList().get(i).getId(),counts,alterWord.getWordList().get(i).getCount());
-                j = alterWord.getWordList().get(i).getId();
+
+            if (alterWord.getBook().equals("book1")) {
+                if(wordsR.get(i).getCount1() != alterWord.getWordList().get(i).getCount()){
+                    //若状态不同，则进行更改数据库
+                    bookShowService.returnCount(thisUsername,alterWord.getWordList().get(i).getId(),counts,alterWord.getWordList().get(i).getCount());
+                    j = alterWord.getWordList().get(i).getId();
+                }
+            } else if (alterWord.getBook().equals("book2")) {
+                if(wordsR.get(i).getCount2() != alterWord.getWordList().get(i).getCount()){
+                    //若状态不同，则进行更改数据库
+                    bookShowService.returnCount(thisUsername,alterWord.getWordList().get(i).getId(),counts,alterWord.getWordList().get(i).getCount());
+                    j = alterWord.getWordList().get(i).getId();
+                }
+            } else {
+                if(wordsR.get(i).getCount3() != alterWord.getWordList().get(i).getCount()){
+                    //若状态不同，则进行更改数据库
+                    bookShowService.returnCount(thisUsername,alterWord.getWordList().get(i).getId(),counts,alterWord.getWordList().get(i).getCount());
+                    j = alterWord.getWordList().get(i).getId();
+                }
+
             }
+
         }
 
         //查找id为j的单词
@@ -263,7 +303,7 @@ public class BookShowController {
         set.add(j);
         List<Word> verify = bookShowService.addIns(set,thisUsername,counts,states);
 
-        if(verify.get(0).getCount() == alterWord.getWordList().get(j).getCount()) {
+        if(verify.get(0).getCount() == alterWord.getWordList().get(alterWord.getWordList().size()-1).getCount()) {
             //获取成功直接过
         }else {
             return new ResponseResult(300,"单词次数更新失败",null);
