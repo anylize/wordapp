@@ -55,9 +55,5 @@
         select * from ${userTable} where id = #{recordingTest.id}
     </select>
 
-    <select id="findAll" resultType="com.sangeng.domain.RecordingTest">
-        select * from ${userTable}
-    </select>
-
 
 </mapper>
