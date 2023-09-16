@@ -24,4 +24,5 @@ public interface ReviseUserService {
     void reviscePassword(int thisUserId, String password);
 
     WordUser useId(int thisUserId);
+
 }

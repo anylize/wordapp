@@ -22,6 +22,7 @@
     </update>
 
 
+
     <select id="getmail" resultType="java.lang.String">
         select email from user where id = #{id}
     </select>

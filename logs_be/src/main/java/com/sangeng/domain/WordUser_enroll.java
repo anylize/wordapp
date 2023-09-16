@@ -17,6 +17,8 @@ public class WordUser_enroll {
     private String password;
     private String repassword;
 
+    private String userPic;
+
     private String token;
 
 }

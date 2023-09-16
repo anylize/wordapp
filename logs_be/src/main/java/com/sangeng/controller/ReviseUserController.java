@@ -147,4 +147,26 @@ public class ReviseUserController {
     }
 
 
+    @SneakyThrows
+    @PostMapping("/pic")
+    public ResponseResult reviscePic(@RequestBody String stringPic,HttpServletRequest request){
+
+        //获取响应头的token
+        String token = request.getHeader("Authorization");
+
+        //先解析token获取用户id
+        Claims thisUser = JwtUtil.parseJWT(token);
+
+        String thisUserIdS = thisUser.getSubject();
+
+        int thisUserId = Integer.parseInt(thisUserIdS);
+
+
+
+
+        return new ResponseResult(200,"储存成功",null);
+    }
+
+
+
 }

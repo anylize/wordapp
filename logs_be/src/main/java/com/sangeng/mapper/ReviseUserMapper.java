@@ -21,4 +21,5 @@ public interface ReviseUserMapper {
     void revisePassword(int thisUserId, String password);
 
     WordUser useId(int thisUserId);
+
 }

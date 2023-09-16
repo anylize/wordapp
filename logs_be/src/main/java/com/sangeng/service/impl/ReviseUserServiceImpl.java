@@ -48,4 +48,5 @@ public class ReviseUserServiceImpl implements ReviseUserService {
     public WordUser useId(int thisUserId) {
         return reviseUserMapper.useId(thisUserId);
     }
+
 }

@@ -26,7 +26,7 @@ public class SelfTestController {
     private SelfTestService selfTestService;
 
 
-    @PostMapping("/test")
+    @PostMapping("/question")
     public ResponseResult selfTest(@RequestBody Book books, HttpServletRequest request) throws Exception {
 
         //获取响应头的token

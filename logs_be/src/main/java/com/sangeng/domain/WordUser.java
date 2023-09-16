@@ -18,6 +18,8 @@ public class WordUser {
     public String nickname;
     public String email;
 
+    private String userPic;
+
 
     private String token;
 
