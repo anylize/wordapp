@@ -26,4 +26,6 @@ public interface SelfTestMapper {
     void addRecording(String userTable, RecordingTest recordingTest);
 
     RecordingTest findRecording(String userTable, RecordingTest recordingTest);
+
+    List<RecordingTest> findAll(String tableR);
 }

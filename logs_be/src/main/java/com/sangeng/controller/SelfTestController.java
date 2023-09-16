@@ -6,10 +6,7 @@ import com.sangeng.service.SelfTestService;
 import com.sangeng.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -25,6 +22,41 @@ public class SelfTestController {
     @Autowired
     private SelfTestService selfTestService;
 
+    @GetMapping("/getRecording")
+    public ResponseResult retuenRecording(@RequestHeader("Authorization") String authorization) throws Exception {
+
+        //先解析token获取用户id
+        Claims thisUser = JwtUtil.parseJWT(authorization);
+
+        String thisUserIdS = thisUser.getSubject();
+
+        int thisUserId = Integer.parseInt(thisUserIdS);
+
+        //通过id获取用户名
+        String thisUsername = selfTestService.find_id(thisUserId);
+
+        String TableR = thisUsername + "t";
+
+        List<RecordingTest> recordingTests = selfTestService.findAll(TableR);
+
+        for (RecordingTest recordingTest : recordingTests){
+            if(recordingTest.getBook().equals("book1")){
+                recordingTest.setBook("高中英语");
+            } else if (recordingTest.getBook().equals("book2")) {
+                recordingTest.setBook("英语四级");
+            }else {
+                recordingTest.setBook("英语六级");
+            }
+        }
+
+        if(recordingTests != null){
+            //修改成功，直接过
+        }else{
+            return new ResponseResult(300,"获取信息失败",null);
+        }
+
+        return new ResponseResult(200,"获取信息成功",recordingTests);
+    }
 
     @PostMapping("/question")
     public ResponseResult selfTest(@RequestBody Book books, HttpServletRequest request) throws Exception {
@@ -32,10 +64,9 @@ public class SelfTestController {
         //获取响应头的token
         String token = request.getHeader("Authorization");
 
-        books.setToken(token);
 
         //先解析token获取用户id
-        Claims thisUser = JwtUtil.parseJWT(books.getToken());
+        Claims thisUser = JwtUtil.parseJWT(token);
 
         String thisUserIdS = thisUser.getSubject();
 

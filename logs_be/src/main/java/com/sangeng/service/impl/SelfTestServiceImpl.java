@@ -47,4 +47,9 @@ public class SelfTestServiceImpl implements SelfTestService {
     public RecordingTest findRecording(String userTable, RecordingTest recordingTest) {
         return selfTestMapper.findRecording(userTable,recordingTest);
     }
+
+    @Override
+    public List<RecordingTest> findAll(String tableR) {
+        return selfTestMapper.findAll(tableR);
+    }
 }

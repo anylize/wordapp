@@ -7,7 +7,7 @@
     </insert>
 
     <insert id="enroll_userbook">
-#         insert into userbook(id,count,state) values (#{id},0,"false")
+         insert into userbook(id,count,state) values (#{id},0,"false")
     </insert>
 
     <insert id="enroll_tableI">
