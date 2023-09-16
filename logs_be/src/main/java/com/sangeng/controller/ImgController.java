@@ -1,21 +1,17 @@
 package com.sangeng.controller;
 
-import com.sangeng.domain.WordUser;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.sangeng.service.CompanyService;
 import com.sangeng.domain.ResponseResult;
-import com.sangeng.utils.ImageUtil;
 import com.sangeng.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.util.UUID;
 
 //上传头像
 
@@ -54,7 +50,7 @@ public class ImgController {
 //    }
 
     @PostMapping("/loadImg")
-    public ResponseResult uploadImg(@RequestBody String base64, HttpServletRequest request) throws Exception {
+    public ResponseResult uploadImg(@RequestBody String img, HttpServletRequest request) throws Exception {
 
         //获取token，得到id
         //获取响应头的token
@@ -67,54 +63,56 @@ public class ImgController {
 
         int thisUserId = Integer.parseInt(thisUserIdS);
 
-        String newFileName = "logs_be/userPicS/1.jpg";
 
-        // 判断是否base64是否包含data:image/png;base64等前缀，如果有则去除
-        if (base64.contains("data:image/png;base64")) {
-            base64 = base64.substring(22);
-            System.out.println("包含png"+base64);
-        }
-        if (base64.contains("data:image/jpeg;base64")) {
-            base64 = base64.substring(23);
-            System.out.println("包含jpeg"+base64);
-        }
-        if (base64.contains("data:application/pdf;base64")) {
-            base64 = base64.substring(28);
-            System.out.println("包含pdf"+base64);
-        }
+        String base64Pic = "";
+        String picName = "";
+        JSONObject jsonObject = (JSONObject) JSON.parse(img);
 
-        BASE64Decoder decoder = new BASE64Decoder();
-        byte[] bytes = decoder.decodeBuffer(base64);
-        for (int i = 0; i<bytes.length; ++i) {
-            // 调整异常数据
-            if (bytes[i] < 0) {
-                bytes[i] +=256;
+        base64Pic = jsonObject.getString("avatar");
+        picName = jsonObject.getString("picName");
+
+        if (base64Pic == null) {
+
+            // 图像数据为空
+
+            return new ResponseResult<>(301,"结果为空",null);
+
+        } else {
+            BASE64Decoder decoder = new BASE64Decoder();
+
+            String baseValue = base64Pic.replaceAll(" ", "+");//前台在用Ajax传base64值的时候会把base64中的+换成空格，所以需要替换回来。
+
+            byte[] b = decoder.decodeBuffer(baseValue.replace("data:image/jpeg;base64,", ""));//去除base64中无用的部分
+
+            base64Pic = base64Pic.replace("base64,", "");
+
+            System.out.println(b);
+
+
+
+            String imgFilePath = "E:\\"+ thisUserId +".jpg";
+
+            try {
+                for (int i = 0; i < b.length; ++i) {
+                    if (b[i] < 0) {// 调整异常数据
+                        b[i] += 256;
+                    }
+                }
+                // 生成jpeg图片
+                OutputStream out = new FileOutputStream(imgFilePath);
+                out.write(b);
+                out.flush();
+                out.close();
+
+                companyService.updateImgById(imgFilePath,thisUserId);
+
+                return new ResponseResult<>(200,"上传成功",null);
+
+            } catch (Exception e) {
+                return new ResponseResult<>(300,"结果为空",null);
             }
-        }
-        OutputStream outputStream = null;
-        InputStream inputStream = new ByteArrayInputStream(bytes);
-        // 此处判断文件夹是否存在，不存在则创建除文件外的父级文件夹
-        File file = new File(newFileName);
-        if (!file.exists()) {
-            System.out.println("上级目录"+file.getParentFile());
-            file.getParentFile().mkdirs();
-        }
-        try {
-            // 生成指定格式文件
-            outputStream = new FileOutputStream(newFileName);
-            byte[] buff = new byte[1024];
-            int len = 0;
-            while ((len = inputStream.read(buff)) != -1) {
-                outputStream.write(buff, 0, len);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            outputStream.flush();
-            outputStream.close();
-        }
 
-        return new ResponseResult(200, "保存成功", null);
+        }
 
     }
 

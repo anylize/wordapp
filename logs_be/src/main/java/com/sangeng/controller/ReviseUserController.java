@@ -8,10 +8,21 @@ import com.sangeng.service.WordUser_enrollService;
 import com.sangeng.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.SneakyThrows;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
+import java.io.*;
+import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URL;
+import java.nio.file.Files;
+import java.util.Base64;
+
+import static org.apache.commons.io.IOUtils.toByteArray;
 
 @RestController
 @RequestMapping("/revise")
@@ -33,6 +44,19 @@ public class ReviseUserController {
 
         WordUser wordUser = reviseUserService.useId(thisUserId);
 
+        String base = wordUser.getUserPic();
+
+        if (base == null) {
+            return null;
+        }
+        try {
+            byte[] b = Files.readAllBytes(Paths.get(base));
+            base = Base64.getEncoder().encodeToString(b);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        wordUser.setUserPic(base);
 
         if(wordUser != null){
             //修改成功，直接过

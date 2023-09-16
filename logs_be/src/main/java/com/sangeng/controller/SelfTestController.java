@@ -98,7 +98,7 @@ public class SelfTestController {
             setC.add(num);
         }
 
-        //setC存储随机英转中文单词的索引
+        //setE存储随机英转中文单词的索引
         HashSet<Integer> setE = new HashSet<Integer>();
         Random randomE = new Random();
 
