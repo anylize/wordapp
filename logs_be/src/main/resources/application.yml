@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 3154
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/wordapp?characterEncoding=utf-8&serverTimezone=UTC&allowMultiQueries = true

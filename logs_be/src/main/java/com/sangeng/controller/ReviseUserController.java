@@ -33,7 +33,7 @@ public class ReviseUserController {
 
 
     @GetMapping("/get")
-    public ResponseResult retuenUser(@RequestHeader("Authorization") String authorization) throws Exception {
+    public ResponseResult returnUser(@RequestHeader("Authorization") String authorization) throws Exception {
 
         //先解析token获取用户id
         Claims thisUser = JwtUtil.parseJWT(authorization);
@@ -47,7 +47,7 @@ public class ReviseUserController {
         String base = wordUser.getUserPic();
 
         if (base == null) {
-            return null;
+            return new ResponseResult<>(500,"获取信息成功",wordUser);
         }
         try {
             byte[] b = Files.readAllBytes(Paths.get(base));
